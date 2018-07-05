@@ -19,26 +19,28 @@ if (isset($_GET['action']) && $_GET['action'] =='delete') {
 }
 
 
-
-
 ?>
-<?php if(isset($msg) && $msg != null) echo $msg; ?>
+
 <div class="panel panel-default">
 
     <div class="panel-heading">
-
-        <h2>User List<span class="pull-right"><strong>Welcome! </strong>
-                <?php
-                $name = Session::get("name");
-                if (isset($name)) {
-                    echo $name;
-                }
-                ?>
-            </span></h2>
-
+        
+        <form action="" method="">
+            <input type="search" name="keyword" class="form-control" placeholder="Enter Search Keyword here name or address or email or contact">
+            <br>
+            <input type="submit" value="Search" class="btn btn-success">
+        </form>
+        
     </div>
     <div class="panel-body">
-        <table class="table table-striped table-bordered table-responsive">
+
+        <?php if(isset($_GET['keyword'])){
+               $keyword = $_GET['keyword'];
+                $user = $user->searchuser($keyword);
+
+                if($user) { ?>
+                    
+                    <table class="table table-striped table-bordered table-responsive">
             <tr>
                 <th width="10%">Serial</th>
                 <th width="25%">Name</th>
@@ -53,7 +55,7 @@ if (isset($_GET['action']) && $_GET['action'] =='delete') {
 
         <?php 
             $i = 0;
-            foreach ($user->showusers() as $value) {
+            foreach ($user as $value) {
                 $i++;
                 ?>
 
@@ -71,6 +73,18 @@ if (isset($_GET['action']) && $_GET['action'] =='delete') {
             </tr>
         <?php } ?>
         </table>
+
+
+           <?php     }else{ ?>
+
+                    <p class="alert alert-warning">No user found</p>
+              <?php  }} ?>
+
+
+        
+
+
+
     </div>
 </div>
 
